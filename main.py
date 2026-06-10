@@ -42,7 +42,7 @@ def level_order(root):
         level_size = len(queue) 
         current_level = []
         
-        for _ in range(level_size):
+        for i in range(level_size):
             node = queue.pop(0)  
             current_level.append(node.value) 
             if node.left:
