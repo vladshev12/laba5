@@ -1,27 +1,37 @@
-class Node:
-    def __init__(self, val):
-        self.val = val
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
         self.left = None
         self.right = None
-def preorder(root) -> list:
-    if not root:
-        return []
-    return [root.val] + preorder(root.left) + preorder(root.right)
 
+def preorder(root, result=None):
+    if result is None:
+        result = []
+    if root:
+        result.append(root.value)         
+        preorder(root.left, result)         
+        preorder(root.right, result)       
+    return result
 
-def inorder(root) -> list:
-    if not root:
-        return []
-    return inorder(root.left) + [root.val] + inorder(root.right)
+def inorder(root, result=None):
+    if result is None:
+        result = []
+    if root:
+        inorder(root.left, result)   
+        result.append(root.value)         
+        inorder(root.right, result)    
+    return result
 
+def postorder(root, result=None):
+    if result is None:
+        result = []
+    if root:
+        postorder(root.left, result)     
+        postorder(root.right, result)      
+        result.append(root.value)           
+    return result
 
-def postorder(root) -> list:
-    if not root:
-        return []
-    return postorder(root.left) + postorder(root.right) + [root.val]
-
-
-def level_order(root) -> list:
+def level_order(root):
     if not root:
         return []
     
@@ -34,7 +44,7 @@ def level_order(root) -> list:
         
         for _ in range(level_size):
             node = queue.pop(0)  
-            current_level.append(node.val)
+            current_level.append(node.value) 
             if node.left:
                 queue.append(node.left)
             if node.right:
@@ -43,34 +53,27 @@ def level_order(root) -> list:
         result.append(current_level)
     
     return result
-def left_view(root) -> list:
+
+def left_view(root):
     levels = level_order(root)
     return [level[0] for level in levels]
-if __name__ == "__main__":
 
-    
-    root1 = Node(1)
-    root1.left = Node(2)
-    root1.right = Node(3)
-    root1.left.left = Node(4)
-    root1.left.right = Node(5)
-    root1.right.right = Node(6)
 
-    print("=== ТЕСТ 1 ===")
+
+    print("   ТЕСТ 1 ")
     print(f"Прямой обход (Preorder):     {preorder(root1)}")
     print(f"Симметричный (Inorder):      {inorder(root1)}")
     print(f"Обратный обход (Postorder):   {postorder(root1)}")
     print(f"По уровням (Level order):    {level_order(root1)}")
     print(f"Левый вид (Left View):       {left_view(root1)}")
 
-    print("\n" + "="*40 + "\n")
 
     root2 = Node(5)
     root2.left = Node(10)
     root2.left.right = Node(20)
     root2.left.right.left = Node(30)
 
-    print("=== ТЕСТ 2 ===")
+    print("    ТЕСТ 2")
     print(f"Прямой обход (Preorder):     {preorder(root2)}")
     print(f"Симметричный (Inorder):      {inorder(root2)}")
     print(f"Обратный обход (Postorder):   {postorder(root2)}")
